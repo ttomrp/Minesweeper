@@ -84,7 +84,6 @@ namespace Minesweeper
             rowCount = 8;
             columnCount = 8;
             resetGameBoard();
-            buildGameBoard();
         }
 
         private void x10ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -92,7 +91,6 @@ namespace Minesweeper
             rowCount = 10;
             columnCount = 10;
             resetGameBoard();
-            buildGameBoard();
         }
 
         private void x16ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -100,7 +98,6 @@ namespace Minesweeper
             rowCount = 16;
             columnCount = 16;
             resetGameBoard();
-            buildGameBoard();
         }
 
         private void x20ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -108,7 +105,6 @@ namespace Minesweeper
             rowCount = 20;
             columnCount = 20;
             resetGameBoard();
-            buildGameBoard();
         }
 
         private void resetGameBoard()
@@ -120,33 +116,12 @@ namespace Minesweeper
 
             this.Controls.Clear();
             this.InitializeComponent();
-            /*
-            string[] abArray = new string[] { "a", "b" };
-            foreach (string letter in abArray)
-            {
-                for (int i = 0; i < rowCount; i++)
-                {
-                    for (int j = 0; j < columnCount; j++)
-                    {
-                        var buttonName = string.Format("button_{0}{1}{2}", i, j, letter);
-                        if (buttons.ContainsKey(buttonName))
-                        {
-                            var button = buttons[buttonName];
-                            if (button.Image != null)
-                            {
-                                button.Image = null;
-                            }
-                            buttons.Remove(buttonName);
-                        }
-                    }
-                }
-            }
-            buttons.Clear();
-            */
+            buildGameBoard();
         }
 
         private void buildGameBoard()
         {
+            this.MinimumSize = new Size(260, (columnCount * 20) + 120);
             this.Size = new Size((rowCount * 20), (columnCount * 20) + 120);
 
             this.tableLayoutPanel1.ColumnCount = columnCount;
@@ -155,6 +130,7 @@ namespace Minesweeper
             this.tableLayoutPanel1.RowStyles.Clear();
             this.tableLayoutPanel1.Size = new Size(rowCount * 20, columnCount * 20);
             this.tableLayoutPanel1.Dock = DockStyle.Bottom;
+            //this.tableLayoutPanel1.Anchor = AnchorStyles.Bottom;
 
 
             for (int i = 0; i < columnCount; i++)
@@ -184,7 +160,9 @@ namespace Minesweeper
                         button.Name = nameFormat;
                     }
                     button.Size = new Size(20, 20);
+                    button.MaximumSize = new Size(20, 20);
                     button.Dock = DockStyle.Fill;
+                    button.Anchor = AnchorStyles.Bottom;
                     button.Padding = new Padding(0);
                     button.Margin = new Padding(0, 0, 0, 0);
                     //button.Click += new EventHandler(button_Click);
