@@ -17,6 +17,8 @@ namespace Minesweeper
             InitializeComponent();
         }
 
+        private bool gameStart = false;  //some flag that the game has started
+
         private void Form1_Load(object sender, EventArgs e)
         {
             var rowCount = 16;
@@ -75,6 +77,12 @@ namespace Minesweeper
         {
             Button button = sender as Button;
             // identify which button was clicked and perform necessary actions
+            if (gameStart == false)
+            {
+                this.timer1.Enabled = true;
+                gameStart = true;
+            }
+            
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -82,13 +90,33 @@ namespace Minesweeper
                     break;
                 case MouseButtons.Right:
                     button.Image = Minesweeper.Properties.Resources.flag;
+                    int flagsLeft;
+                    if (int.TryParse(flag_textBox.Text, out flagsLeft))
+                    {
+                        flagsLeft--;
+                        this.flag_textBox.Text = flagsLeft.ToString("000");
+                    }
                     break;
             }
         }
 
         private void face_button_Click(object sender, EventArgs e)
         {
+            gameStart = false;
+            timer1.Enabled = false;
+            this.timer_textBox.Text = "000";
+            this.flag_textBox.Text = "099";
+        }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            int time;
+            if (int.TryParse(timer_textBox.Text, out time))
+            {
+                time++;
+                this.timer_textBox.Text = time.ToString("000");
+            }
+            
         }
     }
 }
