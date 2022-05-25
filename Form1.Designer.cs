@@ -39,6 +39,10 @@ namespace Minesweeper
             this.flag_textBox = new System.Windows.Forms.TextBox();
             this.timer_textBox = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.x8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x20ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,8 +94,13 @@ namespace Minesweeper
             // 
             // sizeToolStripMenuItem
             // 
+            this.sizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.x8ToolStripMenuItem,
+            this.x10ToolStripMenuItem,
+            this.x16ToolStripMenuItem,
+            this.x20ToolStripMenuItem});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // flag_textBox
@@ -123,6 +132,34 @@ namespace Minesweeper
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // x8ToolStripMenuItem
+            // 
+            this.x8ToolStripMenuItem.Name = "x8ToolStripMenuItem";
+            this.x8ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x8ToolStripMenuItem.Text = "8 x 8";
+            this.x8ToolStripMenuItem.Click += new System.EventHandler(this.x8ToolStripMenuItem_Click);
+            // 
+            // x10ToolStripMenuItem
+            // 
+            this.x10ToolStripMenuItem.Name = "x10ToolStripMenuItem";
+            this.x10ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x10ToolStripMenuItem.Text = "10 x 10";
+            this.x10ToolStripMenuItem.Click += new System.EventHandler(this.x10ToolStripMenuItem_Click);
+            // 
+            // x16ToolStripMenuItem
+            // 
+            this.x16ToolStripMenuItem.Name = "x16ToolStripMenuItem";
+            this.x16ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x16ToolStripMenuItem.Text = "16 x 16";
+            this.x16ToolStripMenuItem.Click += new System.EventHandler(this.x16ToolStripMenuItem_Click);
+            // 
+            // x20ToolStripMenuItem
+            // 
+            this.x20ToolStripMenuItem.Name = "x20ToolStripMenuItem";
+            this.x20ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x20ToolStripMenuItem.Text = "20 x 20";
+            this.x20ToolStripMenuItem.Click += new System.EventHandler(this.x20ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -157,6 +194,10 @@ namespace Minesweeper
         private System.Windows.Forms.TextBox flag_textBox;
         private System.Windows.Forms.TextBox timer_textBox;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem x8ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x10ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x16ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x20ToolStripMenuItem;
     }
 }
 
