@@ -31,7 +31,7 @@ namespace Minesweeper
             this.tableLayoutPanel1.Size = new Size(rowCount * 20, columnCount * 20);
             this.tableLayoutPanel1.Dock = DockStyle.Bottom;
 
-            //this.face_button.Location.X = this.Width / 2;
+            
 
             
 
