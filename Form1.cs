@@ -13,14 +13,15 @@ namespace Minesweeper
 {
     public partial class Form1 : Form
     {
+        private MinesweeperGame _game;
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private bool gameStart = false;  //some flag that the game has started
-        private int rowCount = 16;
-        private int columnCount = 16;
+        private int gridSize = 16;
         private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
 
         private void Form1_Load(object sender, EventArgs e)
@@ -81,30 +82,31 @@ namespace Minesweeper
 
         private void x8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rowCount = 8;
-            columnCount = 8;
+            gridSize = 8;
             resetGameBoard();
         }
 
         private void x10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rowCount = 10;
-            columnCount = 10;
+            gridSize = 10;
             resetGameBoard();
         }
 
         private void x16ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rowCount = 16;
-            columnCount = 16;
+            gridSize = 16;
             resetGameBoard();
         }
 
         private void x20ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rowCount = 20;
-            columnCount = 20;
+            gridSize = 20;
             resetGameBoard();
+        }
+
+        private void startGame()
+        {
+            _game = new MinesweeperGame(gridSize);
         }
 
         private void resetGameBoard()
@@ -121,31 +123,31 @@ namespace Minesweeper
 
         private void buildGameBoard()
         {
-            this.MinimumSize = new Size(260, (columnCount * 20) + 120);
-            this.Size = new Size((rowCount * 20), (columnCount * 20) + 120);
+            this.MinimumSize = new Size(260, (gridSize * 20) + 120);
+            this.Size = new Size((gridSize * 20), (gridSize * 20) + 120);
 
-            this.tableLayoutPanel1.ColumnCount = columnCount;
-            this.tableLayoutPanel1.RowCount = rowCount;
+            this.tableLayoutPanel1.ColumnCount = gridSize;
+            this.tableLayoutPanel1.RowCount = gridSize;
             this.tableLayoutPanel1.ColumnStyles.Clear();
             this.tableLayoutPanel1.RowStyles.Clear();
-            this.tableLayoutPanel1.Size = new Size(rowCount * 20, columnCount * 20);
+            this.tableLayoutPanel1.Size = new Size(gridSize * 20, gridSize * 20);
             this.tableLayoutPanel1.Dock = DockStyle.Bottom;
             //this.tableLayoutPanel1.Anchor = AnchorStyles.Bottom;
 
 
-            for (int i = 0; i < columnCount; i++)
+            for (int i = 0; i < gridSize; i++)
             {
-                this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100 / columnCount));
+                this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100 / gridSize));
             }
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < gridSize; i++)
             {
-                this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100 / rowCount));
+                this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100 / gridSize));
             }
 
             buttons.Clear();
-            for (int i = 0; i < rowCount; i++)
+            for (int i = 0; i < gridSize; i++)
             {
-                for (int j = 0; j < columnCount; j++)
+                for (int j = 0; j < gridSize; j++)
                 {
 
                     var button = new Button();
@@ -173,6 +175,8 @@ namespace Minesweeper
                     this.tableLayoutPanel1.Controls.Add(button, j, i);
                 }
             }
+
+            startGame();
         }
     }
 }
