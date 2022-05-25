@@ -68,6 +68,7 @@ namespace Minesweeper
             this.face_button.Size = new System.Drawing.Size(50, 50);
             this.face_button.TabIndex = 2;
             this.face_button.UseVisualStyleBackColor = true;
+            this.face_button.Click += new System.EventHandler(this.face_button_Click);
             // 
             // menuStrip1
             // 
@@ -100,7 +101,7 @@ namespace Minesweeper
             this.flag_textBox.Location = new System.Drawing.Point(12, 27);
             this.flag_textBox.Name = "flag_textBox";
             this.flag_textBox.ReadOnly = true;
-            this.flag_textBox.Size = new System.Drawing.Size(100, 50);
+            this.flag_textBox.Size = new System.Drawing.Size(80, 50);
             this.flag_textBox.TabIndex = 4;
             this.flag_textBox.Text = "099";
             this.flag_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -110,10 +111,10 @@ namespace Minesweeper
             this.timer_textBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.timer_textBox.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.timer_textBox.ForeColor = System.Drawing.Color.Black;
-            this.timer_textBox.Location = new System.Drawing.Point(164, 27);
+            this.timer_textBox.Location = new System.Drawing.Point(184, 27);
             this.timer_textBox.Name = "timer_textBox";
             this.timer_textBox.ReadOnly = true;
-            this.timer_textBox.Size = new System.Drawing.Size(100, 50);
+            this.timer_textBox.Size = new System.Drawing.Size(80, 50);
             this.timer_textBox.TabIndex = 5;
             this.timer_textBox.Text = "000";
             this.timer_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

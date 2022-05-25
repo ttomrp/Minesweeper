@@ -31,9 +31,6 @@ namespace Minesweeper
             this.tableLayoutPanel1.Size = new Size(rowCount * 20, columnCount * 20);
             this.tableLayoutPanel1.Dock = DockStyle.Bottom;
 
-            
-
-            
 
             for (int i = 0; i < columnCount; i++)
             {
@@ -56,7 +53,8 @@ namespace Minesweeper
                     button.Dock = DockStyle.Fill;
                     button.Padding = new Padding(0);
                     button.Margin = new Padding(0, 0, 0, 0);
-                    button.Click += new EventHandler(button_Click);
+                    //button.Click += new EventHandler(button_Click);
+                    button.MouseUp += new MouseEventHandler(button_MouseUp);
 
 
 
@@ -65,11 +63,32 @@ namespace Minesweeper
             }
         }
 
-        protected void button_Click(object sender, EventArgs e)
+        /*protected void button_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
             // identify which button was clicked and perform necessary actions
             button.Image = Minesweeper.Properties.Resources.bombflag;
+        }
+        */
+
+        protected void button_MouseUp(object sender, MouseEventArgs e)
+        {
+            Button button = sender as Button;
+            // identify which button was clicked and perform necessary actions
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    button.Image = Minesweeper.Properties.Resources.bombflag;
+                    break;
+                case MouseButtons.Right:
+                    button.Image = Minesweeper.Properties.Resources.flag;
+                    break;
+            }
+        }
+
+        private void face_button_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
