@@ -102,7 +102,7 @@ namespace Minesweeper
             // randomly change positions of bombs in array
             for (int i=0; i<boardSize; i++)
             {
-                int position = rand.Next(100);
+                int position = rand.Next(boardSize);
                 bool save = n[i];
                 n[i] = n[position];
                 n[position] = save;

@@ -24,7 +24,7 @@ namespace Minesweeper
         }
 
         private bool gameStart = false;  //some flag that the game has started
-        private int gridSize = 16;
+        private int gridSize = 8;
         private Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>> buttons = new Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>>();
 
         private void Form1_Load(object sender, EventArgs e)
