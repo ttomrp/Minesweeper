@@ -28,32 +28,11 @@ namespace Minesweeper
             sideSize = gridSize;
             boardSize = gridSize * gridSize;
         }
-
-        public bool hasFlag (int row, int col)
-        {
-            return cell[row, col].hasFlag;
-        }
-
-        public bool hasBomb (int row, int col)
-        {
-            return cell[row, col].hasBomb;
-        }
-
-        public bool isUncovered (int row, int col)
-        {
-            return cell[row, col].isUncovered;
-        }
-
-        public void setUncovered (int row, int col)
-        {
-            cell[row, col].isUncovered = true;
-        }
-
-        public int neighboringBombs (int row, int col)
-        {
-            return cell[row, col].neighboringBombs;
-        }
         
+        /*
+         * Initializes the 2D array of cells for the game.  Sets fields in the cellstruct for
+         * each cell.
+         */
         public void initializeGame()
         {
             bool[] bombs = getBombs();
@@ -84,6 +63,10 @@ namespace Minesweeper
             checkNeighbors();
         }
 
+        /*
+         * Creates a 1D boolean array for a given board size and randomizes 'bomb flags' in the array.
+         * Returns a 1D boolean array.
+         */
         public bool[] getBombs()
         {
             Random rand = new Random();
@@ -110,6 +93,10 @@ namespace Minesweeper
             return n;
         }
 
+        /*
+         * Checks surrounding neighbors of a cell and counts the number of neighboring
+         * cells with a bomb.  Sets cell.neighboringBombs with the total count.
+         */
         public void checkNeighbors()
         {
             

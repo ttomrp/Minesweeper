@@ -13,7 +13,8 @@ namespace Minesweeper
 {
     public partial class Form1 : Form
     {
-        // TODO: connect functionality between Form and MinesweeperGame
+        // TODO: display all bombs on map when game ends
+        // TODO: add game winning ending
         // TODO: add unit tests
 
         private MinesweeperGame _game;
@@ -32,14 +33,10 @@ namespace Minesweeper
             buildGameBoard();
         }
 
-        /*protected void button_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            // identify which button was clicked and perform necessary actions
-            button.Image = Minesweeper.Properties.Resources.bombflag;
-        }
-        */
-
+        /*
+         * Event handler for a button click.  Using MouseUp event to allow for 
+         * left and right click handling.
+         */
         protected void button_MouseUp(object sender, MouseEventArgs e)
         {
             Button button = sender as Button;
@@ -106,11 +103,17 @@ namespace Minesweeper
             }
         }
 
+        /*
+         * Event handler for reset "face" button click.  Resets the game.
+         */
         private void face_button_Click(object sender, EventArgs e)
         {
             resetGameBoard();
         }
 
+        /*
+         * Event handler for timer.  Only runs when first button clicked.
+         */
         private void timer1_Tick(object sender, EventArgs e)
         {
             int time;
@@ -122,36 +125,55 @@ namespace Minesweeper
             
         }
 
+        /*
+         * Event handler for Menu setting change.  Updates gridSize and restarts the game.
+         */
         private void x8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridSize = 8;
             resetGameBoard();
         }
 
+        /*
+         * Event handler for Menu setting change.  Updates gridSize and restarts the game.
+         */
         private void x10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridSize = 10;
             resetGameBoard();
         }
 
+        /*
+         * Event handler for Menu setting change.  Updates gridSize and restarts the game.
+         */
         private void x16ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridSize = 16;
             resetGameBoard();
         }
 
+        /*
+         * Event handler for Menu setting change.  Updates gridSize and restarts the game.
+         */
         private void x20ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridSize = 20;
             resetGameBoard();
         }
 
+        /*
+         * Starts the game by initializing MinesweeperGame class.
+         */
         private void startGame()
         {
             _game = new MinesweeperGame(gridSize);
             _game.initializeGame();
         }
 
+        /*
+         * Ends game by disabling buttons and stopping timer.  Reset button must be pressed to
+         * start new game.
+         */
         private void endGame()
         {
             this.tableLayoutPanel1.Enabled = false;
@@ -160,6 +182,9 @@ namespace Minesweeper
             MessageBox.Show("BOOM!  You lost.");
         }
 
+        /*
+         * Resets game controls and calls buildGameBoard().
+         */
         private void resetGameBoard()
         {
             gameStart = false;
@@ -172,6 +197,10 @@ namespace Minesweeper
             buildGameBoard();
         }
 
+        /*
+         * Builds the windows form for the selected gameboard size.  Links the form buttons to
+         * their corresponding MinesweeperGame cells.
+         */
         private void buildGameBoard()
         {
             startGame();
@@ -210,10 +239,9 @@ namespace Minesweeper
                     button.Anchor = AnchorStyles.Bottom;
                     button.Padding = new Padding(0);
                     button.Margin = new Padding(0, 0, 0, 0);
-                    //button.Click += new EventHandler(button_Click);
                     button.MouseUp += new MouseEventHandler(button_MouseUp);
 
-                    // couple gameCell to button.
+                    // link gameCell to button.
                     // tableLayoutPanel is actual game size, but the cells array in MinesweeperGame are size+2
                     var gameCell = _game.cell[i + 1, j + 1];
                     buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button,gameCell));
