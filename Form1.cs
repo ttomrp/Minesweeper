@@ -54,6 +54,7 @@ namespace Minesweeper
                     if (cell.hasBomb)
                     {
                         button.Image = Minesweeper.Properties.Resources.bombhit;
+                        _game.setIsUncovered(cell.row, cell.column);
                         endGame();
                     } else 
                     {
@@ -87,9 +88,9 @@ namespace Minesweeper
                                 button.Image = Minesweeper.Properties.Resources.tile8;
                                 break;
                         }
+                        button.Enabled = false;
+                        _game.setIsUncovered(cell.row, cell.column);
                     }
-                    button.Enabled = false;
-                    cell.isUncovered = true;
                     break;
                 case MouseButtons.Right:
                     button.Image = Minesweeper.Properties.Resources.flag;
@@ -162,6 +163,58 @@ namespace Minesweeper
         }
 
         /*
+         * Displays all the bombs on the board after the game ends.
+         */
+        private void displayBombs()
+        {
+            foreach (KeyValuePair<string, Tuple<Button, MinesweeperGame.cellStruct>> entry in buttons)
+            {
+                var button = entry.Value.Item1;
+                // the cell in the buttons array is a copy of the cell when the array is initialized
+                // since the cell have had the isUncovered field updated, we need to grab a current
+                // copy of the cell.
+                var cell = _game.cell[entry.Value.Item2.row, entry.Value.Item2.column];
+                if (cell.hasBomb && !cell.isUncovered)
+                {
+                    button.Image = Minesweeper.Properties.Resources.bombflag;
+                }
+                else if (!cell.isUncovered)
+                {
+                    switch (cell.neighboringBombs)
+                    {
+                        case 0:
+                            //button.Enabled = false;
+                            break;
+                        case 1:
+                            button.Image = Minesweeper.Properties.Resources.tile1;
+                            break;
+                        case 2:
+                            button.Image = Minesweeper.Properties.Resources.tile2;
+                            break;
+                        case 3:
+                            button.Image = Minesweeper.Properties.Resources.tile3;
+                            break;
+                        case 4:
+                            button.Image = Minesweeper.Properties.Resources.tile4;
+                            break;
+                        case 5:
+                            button.Image = Minesweeper.Properties.Resources.tile5;
+                            break;
+                        case 6:
+                            button.Image = Minesweeper.Properties.Resources.tile6;
+                            break;
+                        case 7:
+                            button.Image = Minesweeper.Properties.Resources.tile7;
+                            break;
+                        case 8:
+                            button.Image = Minesweeper.Properties.Resources.tile8;
+                            break;
+                    }
+                }
+            }
+        }
+
+        /*
          * Starts the game by initializing MinesweeperGame class.
          */
         private void startGame()
@@ -179,6 +232,7 @@ namespace Minesweeper
             this.tableLayoutPanel1.Enabled = false;
             this.face_button.Image = Minesweeper.Properties.Resources.dead;
             this.timer1.Stop();
+            displayBombs();
             MessageBox.Show("BOOM!  You lost.");
         }
 
@@ -241,10 +295,9 @@ namespace Minesweeper
                     button.Margin = new Padding(0, 0, 0, 0);
                     button.MouseUp += new MouseEventHandler(button_MouseUp);
 
-                    // link gameCell to button.
+                    // add a copy of the current game cell to the buttons array
                     // tableLayoutPanel is actual game size, but the cells array in MinesweeperGame are size+2
-                    var gameCell = _game.cell[i + 1, j + 1];
-                    buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button,gameCell));
+                    buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button, _game.cell[i + 1, j + 1]));
 
 
                     this.tableLayoutPanel1.Controls.Add(button, j, i);

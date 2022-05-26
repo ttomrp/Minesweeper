@@ -10,7 +10,6 @@ namespace Minesweeper
     {
         public struct cellStruct
         {
-            public bool hasFlag;
             public bool hasBomb;
             public bool isUncovered;
             public int neighboringBombs;
@@ -28,6 +27,11 @@ namespace Minesweeper
             sideSize = gridSize;
             boardSize = gridSize * gridSize;
         }
+
+        public void setIsUncovered(int row, int col)
+        {
+            cell[row, col].isUncovered = true;
+        }
         
         /*
          * Initializes the 2D array of cells for the game.  Sets fields in the cellstruct for
@@ -43,7 +47,6 @@ namespace Minesweeper
                 {
                     cell[row, col] = new cellStruct
                     {
-                        hasFlag = false,
                         hasBomb = false,
                         isUncovered = false,
                         neighboringBombs = 0,
@@ -59,7 +62,6 @@ namespace Minesweeper
                     bombCounter++;
                 }
             }
-
             checkNeighbors();
         }
 
