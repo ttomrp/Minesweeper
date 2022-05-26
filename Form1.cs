@@ -43,6 +43,7 @@ namespace Minesweeper
         protected void button_MouseUp(object sender, MouseEventArgs e)
         {
             Button button = sender as Button;
+            var cell = buttons[button.Name].Item2;
             // identify which button was clicked and perform necessary actions
             if (gameStart == false)
             {
@@ -53,7 +54,12 @@ namespace Minesweeper
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    button.Image = Minesweeper.Properties.Resources.bombflag;
+                    if (cell.hasBomb)
+                    {
+                        button.Image = Minesweeper.Properties.Resources.bombhit;
+                        endGame();
+                    }
+                    button.Enabled = false;
                     break;
                 case MouseButtons.Right:
                     button.Image = Minesweeper.Properties.Resources.flag;
@@ -110,6 +116,15 @@ namespace Minesweeper
         private void startGame()
         {
             _game = new MinesweeperGame(gridSize);
+            _game.initializeGame();
+        }
+
+        private void endGame()
+        {
+            this.tableLayoutPanel1.Enabled = false;
+            this.face_button.Image = Minesweeper.Properties.Resources.dead;
+            this.timer1.Stop();
+            MessageBox.Show("BOOM!  You lost.");
         }
 
         private void resetGameBoard()
