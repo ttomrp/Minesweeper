@@ -112,11 +112,12 @@ namespace Minesweeper
 
         public void checkNeighbors()
         {
-            int neighboringBombsCounter = 0;
+            
             for (int row = 1; row <= sideSize; row++)
             {
                 for (int col = 1; col <= sideSize; col++)
                 {
+                    int neighboringBombsCounter = 0;
                     // check three neighbors above
                     if (cell[row - 1, col - 1].hasBomb)
                     {

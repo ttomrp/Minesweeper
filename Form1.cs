@@ -58,6 +58,9 @@ namespace Minesweeper
                     {
                         button.Image = Minesweeper.Properties.Resources.bombhit;
                         endGame();
+                    } else if (cell.neighboringBombs > 0)
+                    {
+                        
                     }
                     button.Enabled = false;
                     break;
