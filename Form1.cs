@@ -13,6 +13,9 @@ namespace Minesweeper
 {
     public partial class Form1 : Form
     {
+        // TODO: connect functionality between Form and MinesweeperGame
+        // TODO: add unit tests
+
         private MinesweeperGame _game;
         public Form1()
         {
