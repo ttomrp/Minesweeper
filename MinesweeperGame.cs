@@ -28,6 +28,31 @@ namespace Minesweeper
             sideSize = gridSize;
             boardSize = gridSize * gridSize;
         }
+
+        public bool hasFlag (int row, int col)
+        {
+            return cell[row, col].hasFlag;
+        }
+
+        public bool hasBomb (int row, int col)
+        {
+            return cell[row, col].hasBomb;
+        }
+
+        public bool isUncovered (int row, int col)
+        {
+            return cell[row, col].isUncovered;
+        }
+
+        public void setUncovered (int row, int col)
+        {
+            cell[row, col].isUncovered = true;
+        }
+
+        public int neighboringBombs (int row, int col)
+        {
+            return cell[row, col].neighboringBombs;
+        }
         
         public void initializeGame()
         {

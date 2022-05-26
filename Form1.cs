@@ -22,7 +22,7 @@ namespace Minesweeper
 
         private bool gameStart = false;  //some flag that the game has started
         private int gridSize = 16;
-        private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
+        private Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>> buttons = new Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -123,6 +123,8 @@ namespace Minesweeper
 
         private void buildGameBoard()
         {
+            startGame();
+
             this.MinimumSize = new Size(260, (gridSize * 20) + 120);
             this.Size = new Size((gridSize * 20), (gridSize * 20) + 120);
 
@@ -149,18 +151,8 @@ namespace Minesweeper
             {
                 for (int j = 0; j < gridSize; j++)
                 {
-
                     var button = new Button();
-                    //button.Text = string.Format("{0}{1}", i, j);
-                    string nameFormat = string.Format("button_{0}{1}a", i, j);
-                    if (buttons.ContainsKey(nameFormat)) 
-                    {
-                        button.Name = string.Format("button_{0}{1}b", i, j);
-                    }
-                    else
-                    {
-                        button.Name = nameFormat;
-                    }
+                    button.Name = string.Format("button_{0}_{1}", i, j);
                     button.Size = new Size(20, 20);
                     button.MaximumSize = new Size(20, 20);
                     button.Dock = DockStyle.Fill;
@@ -169,14 +161,18 @@ namespace Minesweeper
                     button.Margin = new Padding(0, 0, 0, 0);
                     //button.Click += new EventHandler(button_Click);
                     button.MouseUp += new MouseEventHandler(button_MouseUp);
-                    buttons.Add(button.Name, button);
+
+                    // couple gameCell to button.
+                    // tableLayoutPanel is actual game size, but the cells array in MinesweeperGame are size+2
+                    var gameCell = _game.cell[i + 1, j + 1];
+                    buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button,gameCell));
 
 
                     this.tableLayoutPanel1.Controls.Add(button, j, i);
                 }
             }
 
-            startGame();
+            
         }
     }
 }
