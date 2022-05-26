@@ -58,11 +58,41 @@ namespace Minesweeper
                     {
                         button.Image = Minesweeper.Properties.Resources.bombhit;
                         endGame();
-                    } else if (cell.neighboringBombs > 0)
+                    } else 
                     {
-                        
+                        switch (cell.neighboringBombs)
+                        {
+                            case 0:
+                                button.Enabled = false;
+                                break;
+                            case 1:
+                                button.Image = Minesweeper.Properties.Resources.tile1;
+                                break;
+                            case 2:
+                                button.Image = Minesweeper.Properties.Resources.tile2;
+                                break;
+                            case 3:
+                                button.Image = Minesweeper.Properties.Resources.tile3;
+                                break;
+                            case 4:
+                                button.Image = Minesweeper.Properties.Resources.tile4;
+                                break;
+                            case 5:
+                                button.Image = Minesweeper.Properties.Resources.tile5;
+                                break;
+                            case 6:
+                                button.Image = Minesweeper.Properties.Resources.tile6;
+                                break;
+                            case 7:
+                                button.Image = Minesweeper.Properties.Resources.tile7;
+                                break;
+                            case 8:
+                                button.Image = Minesweeper.Properties.Resources.tile8;
+                                break;
+                        }
                     }
                     button.Enabled = false;
+                    cell.isUncovered = true;
                     break;
                 case MouseButtons.Right:
                     button.Image = Minesweeper.Properties.Resources.flag;
