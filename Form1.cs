@@ -13,8 +13,8 @@ namespace Minesweeper
 {
     public partial class Form1 : Form
     {
-        // TODO: display all bombs on map when game ends
         // TODO: add game winning ending
+        // TODO: if button has no neighboring bombs, auto 'click' neighboring buttons without bombs
         // TODO: add unit tests
 
         private MinesweeperGame _game;
@@ -27,6 +27,7 @@ namespace Minesweeper
         private bool gameStart = false;  //some flag that the game has started
         private int gridSize = 8;
         private Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>> buttons = new Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>>();
+        private Dictionary<string, Button> cellsToButton= new Dictionary<string, Button>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -61,7 +62,7 @@ namespace Minesweeper
                         switch (cell.neighboringBombs)
                         {
                             case 0:
-                                button.Enabled = false;
+                                searchForClearNeighbors(cell);
                                 break;
                             case 1:
                                 button.Image = Minesweeper.Properties.Resources.tile1;
@@ -215,6 +216,65 @@ namespace Minesweeper
         }
 
         /*
+         * Method that recursively searches for neighboring cells.
+         * If cell has not neighboring bombs, then it's corresponding button is disabled and
+         * the cell is marked as uncovered.
+         */
+        private void searchForClearNeighbors(MinesweeperGame.cellStruct cell)
+        {
+            if (cell.name == null)
+            {
+                return;
+            }
+            Button button = cellsToButton[cell.name];
+            button.Enabled = false;
+            
+            // get cell
+            int row = cell.row;
+            int col = cell.column;
+            _game.setIsUncovered(row, col);
+
+            // var cell = _game.cell[buttons[button.Name].Item2.row, buttons[button.Name].Item2.column];
+            // call method in MinesweeperGame to search for other touching non-bomb sites
+            if (_game.cell[row - 1, col - 1].neighboringBombs == 0 && !_game.cell[row - 1, col - 1].isUncovered  && _game.cell[row - 1, col - 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row - 1, col - 1]);
+            }
+            if (_game.cell[row - 1, col].neighboringBombs == 0 && !_game.cell[row - 1, col].isUncovered && _game.cell[row - 1, col].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row - 1, col]);
+            }
+            if (_game.cell[row - 1, col + 1].neighboringBombs == 0 && !_game.cell[row - 1, col + 1].isUncovered && _game.cell[row - 1, col + 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row - 1, col + 1]);
+            }
+
+            // check left and right neighbors
+            if (_game.cell[row, col - 1].neighboringBombs == 0 && !_game.cell[row, col - 1].isUncovered && _game.cell[row, col - 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row, col - 1]);
+            }
+            if (_game.cell[row, col + 1].neighboringBombs == 0 && !_game.cell[row, col + 1].isUncovered && _game.cell[row, col + 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row, col + 1]);
+            }
+
+            // check three neighbors below
+            if (_game.cell[row + 1, col - 1].neighboringBombs == 0 && !_game.cell[row + 1, col - 1].isUncovered && _game.cell[row + 1, col - 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row + 1, col - 1]);
+            }
+            if (_game.cell[row + 1, col].neighboringBombs == 0 && !_game.cell[row + 1, col].isUncovered && _game.cell[row + 1, col].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row + 1, col]);
+            }
+            if (_game.cell[row + 1, col + 1].neighboringBombs == 0 && !_game.cell[row + 1, col + 1].isUncovered && _game.cell[row + 1, col + 1].name != "")
+            {
+                searchForClearNeighbors(_game.cell[row + 1, col + 1]);
+            }
+        }
+
+        /*
          * Starts the game by initializing MinesweeperGame class.
          */
         private void startGame()
@@ -281,6 +341,7 @@ namespace Minesweeper
             }
 
             buttons.Clear();
+            cellsToButton.Clear();
             for (int i = 0; i < gridSize; i++)
             {
                 for (int j = 0; j < gridSize; j++)
@@ -298,6 +359,7 @@ namespace Minesweeper
                     // add a copy of the current game cell to the buttons array
                     // tableLayoutPanel is actual game size, but the cells array in MinesweeperGame are size+2
                     buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button, _game.cell[i + 1, j + 1]));
+                    cellsToButton.Add(_game.cell[i + 1, j + 1].name, button);
 
 
                     this.tableLayoutPanel1.Controls.Add(button, j, i);

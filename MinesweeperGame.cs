@@ -9,7 +9,8 @@ namespace Minesweeper
     class MinesweeperGame
     {
         public struct cellStruct
-        {
+        { 
+            public string name;
             public bool hasBomb;
             public bool isUncovered;
             public int neighboringBombs;
@@ -47,6 +48,7 @@ namespace Minesweeper
                 {
                     cell[row, col] = new cellStruct
                     {
+                        name = string.Format("cell_{0}_{1}", row, col),
                         hasBomb = false,
                         isUncovered = false,
                         neighboringBombs = 0,
@@ -147,6 +149,42 @@ namespace Minesweeper
 
                     cell[row, col].neighboringBombs = neighboringBombsCounter;
                 }
+            }
+        }
+
+        public void searchForEmptyNeighbors(cellStruct currentCell)
+        {
+            int row = currentCell.row;
+            int col = currentCell.column;
+
+            // check three neighbors above
+            if (cell[row - 1, col - 1].hasBomb)
+            {
+            }
+            if (cell[row - 1, col].hasBomb)
+            {
+            }
+            if (cell[row - 1, col + 1].hasBomb)
+            {
+            }
+
+            // check left and right neighbors
+            if (cell[row, col - 1].hasBomb)
+            {
+            }
+            if (cell[row, col + 1].hasBomb)
+            {
+            }
+
+            // check three neighbors below
+            if (cell[row + 1, col - 1].hasBomb)
+            {
+            }
+            if (cell[row + 1, col].hasBomb)
+            {
+            }
+            if (cell[row + 1, col + 1].hasBomb)
+            {
             }
         }
     }
