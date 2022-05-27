@@ -13,7 +13,6 @@ namespace Minesweeper
 {
     public partial class Form1 : Form
     {
-        // TODO: add game winning ending
 
         private MinesweeperGame _game;
         public Form1()
@@ -24,7 +23,7 @@ namespace Minesweeper
 
         private bool gameStart = false;  //some flag that the game has started
         private int gridSize = 8;
-        private int cellsLeft = (8*8)-8;
+        private int cellsLeft = (8*8)-8;  //used to determine when game is won
         private Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>> buttons = new Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>>();
         private Dictionary<string, Button> cellsToButton= new Dictionary<string, Button>();
 
