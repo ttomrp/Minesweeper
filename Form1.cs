@@ -14,8 +14,6 @@ namespace Minesweeper
     public partial class Form1 : Form
     {
         // TODO: add game winning ending
-        // TODO: if button has no neighboring bombs, auto 'click' neighboring buttons without bombs
-        // TODO: add unit tests
 
         private MinesweeperGame _game;
         public Form1()
@@ -26,6 +24,7 @@ namespace Minesweeper
 
         private bool gameStart = false;  //some flag that the game has started
         private int gridSize = 8;
+        private int cellsLeft = (8*8)-8;
         private Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>> buttons = new Dictionary<string, Tuple<Button, MinesweeperGame.cellStruct>>();
         private Dictionary<string, Button> cellsToButton= new Dictionary<string, Button>();
 
@@ -42,7 +41,7 @@ namespace Minesweeper
         {
             Button button = sender as Button;
             var cell = buttons[button.Name].Item2;
-            // identify which button was clicked and perform necessary actions
+            
             if (gameStart == false)
             {
                 this.timer1.Enabled = true;
@@ -56,7 +55,7 @@ namespace Minesweeper
                     {
                         button.Image = Minesweeper.Properties.Resources.bombhit;
                         _game.setIsUncovered(cell.row, cell.column);
-                        endGame();
+                        endGame(false);
                     } else 
                     {
                         switch (cell.neighboringBombs)
@@ -66,27 +65,35 @@ namespace Minesweeper
                                 break;
                             case 1:
                                 button.Image = Minesweeper.Properties.Resources.tile1;
+                                cellsLeft--;
                                 break;
                             case 2:
                                 button.Image = Minesweeper.Properties.Resources.tile2;
+                                cellsLeft--;
                                 break;
                             case 3:
                                 button.Image = Minesweeper.Properties.Resources.tile3;
+                                cellsLeft--;
                                 break;
                             case 4:
                                 button.Image = Minesweeper.Properties.Resources.tile4;
+                                cellsLeft--;
                                 break;
                             case 5:
                                 button.Image = Minesweeper.Properties.Resources.tile5;
+                                cellsLeft--;
                                 break;
                             case 6:
                                 button.Image = Minesweeper.Properties.Resources.tile6;
+                                cellsLeft--;
                                 break;
                             case 7:
                                 button.Image = Minesweeper.Properties.Resources.tile7;
+                                cellsLeft--;
                                 break;
                             case 8:
                                 button.Image = Minesweeper.Properties.Resources.tile8;
+                                cellsLeft--;
                                 break;
                         }
                         button.Enabled = false;
@@ -123,6 +130,11 @@ namespace Minesweeper
             {
                 time++;
                 this.timer_textBox.Text = time.ToString("000");
+            }
+
+            if (cellsLeft == 0)
+            {
+                endGame(true);
             }
             
         }
@@ -184,7 +196,6 @@ namespace Minesweeper
                     switch (cell.neighboringBombs)
                     {
                         case 0:
-                            //button.Enabled = false;
                             break;
                         case 1:
                             button.Image = Minesweeper.Properties.Resources.tile1;
@@ -228,14 +239,13 @@ namespace Minesweeper
             }
             Button button = cellsToButton[cell.name];
             button.Enabled = false;
+            cellsLeft--;
             
-            // get cell
             int row = cell.row;
             int col = cell.column;
             _game.setIsUncovered(row, col);
 
-            // var cell = _game.cell[buttons[button.Name].Item2.row, buttons[button.Name].Item2.column];
-            // call method in MinesweeperGame to search for other touching non-bomb sites
+            // check three neighbors above
             if (_game.cell[row - 1, col - 1].neighboringBombs == 0 && !_game.cell[row - 1, col - 1].isUncovered  && _game.cell[row - 1, col - 1].name != "")
             {
                 searchForClearNeighbors(_game.cell[row - 1, col - 1]);
@@ -279,6 +289,7 @@ namespace Minesweeper
          */
         private void startGame()
         {
+            cellsLeft = (gridSize*gridSize)-gridSize;
             _game = new MinesweeperGame(gridSize);
             _game.initializeGame();
         }
@@ -287,13 +298,21 @@ namespace Minesweeper
          * Ends game by disabling buttons and stopping timer.  Reset button must be pressed to
          * start new game.
          */
-        private void endGame()
+        private void endGame(bool didWin)
         {
             this.tableLayoutPanel1.Enabled = false;
-            this.face_button.Image = Minesweeper.Properties.Resources.dead;
             this.timer1.Stop();
             displayBombs();
-            MessageBox.Show("BOOM!  You lost.");
+            if (!didWin)
+            {
+                this.face_button.Image = Minesweeper.Properties.Resources.dead;
+                MessageBox.Show("BOOM!  You lost.");
+            }
+            else
+            {
+                MessageBox.Show("Congrats!  You won!");
+            }
+            
         }
 
         /*
@@ -360,7 +379,6 @@ namespace Minesweeper
                     // tableLayoutPanel is actual game size, but the cells array in MinesweeperGame are size+2
                     buttons.Add(button.Name, new Tuple<Button, MinesweeperGame.cellStruct>(button, _game.cell[i + 1, j + 1]));
                     cellsToButton.Add(_game.cell[i + 1, j + 1].name, button);
-
 
                     this.tableLayoutPanel1.Controls.Add(button, j, i);
                 }
