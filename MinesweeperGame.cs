@@ -8,30 +8,15 @@ namespace Minesweeper
 {
     class MinesweeperGame
     {
-        public struct cellStruct
-        { 
-            public string name;
-            public bool hasBomb;
-            public bool isUncovered;
-            public int neighboringBombs;
-            public int row;
-            public int column;
-        }
-
         public int boardSize;
         public int sideSize;
-        public cellStruct[,] cell;
+        public Cell[,] cell;
 
         public MinesweeperGame(int gridSize)
         {
-            cell = new cellStruct[gridSize + 2, gridSize + 2];
+            cell = new Cell[gridSize + 2, gridSize + 2];
             sideSize = gridSize;
             boardSize = gridSize * gridSize;
-        }
-
-        public void setIsUncovered(int row, int col)
-        {
-            cell[row, col].isUncovered = true;
         }
         
         /*
@@ -46,15 +31,7 @@ namespace Minesweeper
             {
                 for (int col = 1; col <= sideSize; col++)
                 {
-                    cell[row, col] = new cellStruct
-                    {
-                        name = string.Format("cell_{0}_{1}", row, col),
-                        hasBomb = false,
-                        isUncovered = false,
-                        neighboringBombs = 0,
-                        row = row,
-                        column = col
-                    };
+                    cell[row, col] = new Cell(row, col);
 
                     // set hasBomb based on bombs array
                     if (bombs[bombCounter] == true)
@@ -64,7 +41,30 @@ namespace Minesweeper
                     bombCounter++;
                 }
             }
+            setBorderCells();
             checkNeighbors();
+        }
+
+        public void setBorderCells()
+        {
+            // initialize border cells in top and bottom rows
+            for (int col = 0; col < sideSize+2; col++)
+            {
+                cell[0, col] = new Cell(0, col);
+                cell[0, col].isBorderCell = true;
+
+                cell[sideSize + 1, col] = new Cell(sideSize + 1, col);
+                cell[sideSize + 1, col].isBorderCell = true;
+            }
+            // initialize border cells in left and right cols
+            for (int row = 1; row <= sideSize; row++)
+            {
+                cell[row, 0] = new Cell(row, 0);
+                cell[row, 0].isBorderCell = true;
+
+                cell[row, sideSize + 1] = new Cell(row, sideSize + 1);
+                cell[row, sideSize + 1].isBorderCell = true;
+            }
         }
 
         /*
@@ -152,10 +152,10 @@ namespace Minesweeper
             }
         }
 
-        public void searchForEmptyNeighbors(cellStruct currentCell)
+        public void searchForEmptyNeighbors(Cell currentCell)
         {
-            int row = currentCell.row;
-            int col = currentCell.column;
+            int row = currentCell.getRow();
+            int col = currentCell.getCol();
 
             // check three neighbors above
             if (cell[row - 1, col - 1].hasBomb)
